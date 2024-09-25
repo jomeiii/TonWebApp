@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload the specific build path
-          path: './Build'  # Укажите путь к вашим собранным файлам
+          path: '../Build'  # Укажите путь к вашим собранным файлам
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
