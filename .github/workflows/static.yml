@@ -1,3 +1,4 @@
+
 # Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
 
@@ -36,8 +37,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the specific build path
-          path: './Builds'  # Укажите путь к вашим собранным файлам
+          # Upload entire repository
+          path: './Builds'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
