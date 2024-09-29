@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Games.GameTypes.Durak.Deck;
+using Games.GameTypes.Durak.Deck.CardVisualisation;
 using UnityEngine;
+using DropCard = Games.GameTypes.Durak.Deck.DropCard;
 
 namespace Games.GameTypes.Durak.Player
 {
@@ -9,6 +11,7 @@ namespace Games.GameTypes.Durak.Player
     public class DurakPlayer
     {
         public Durak durak;
+        private CardManager _cardManager;
         [SerializeField] protected List<Card> cards;
 
         // Текущий статус игрока: может атаковать или защищается
@@ -16,13 +19,17 @@ namespace Games.GameTypes.Durak.Player
 
         public List<Card> Cards => cards;
 
-        protected DurakPlayer(Durak durak)
+        public event Action<List<Card>> CardAddedEvent;
+
+        protected DurakPlayer(Durak durak, CardManager cardManager)
         {
             cards = new List<Card>();
             this.durak = durak;
+            _cardManager = cardManager;
+            _cardManager.Init(this);
         }
 
-        protected DurakPlayer(Durak durak, bool canAttack) : this(durak)
+        protected DurakPlayer(Durak durak, CardManager cardManager, bool canAttack) : this(durak, cardManager)
         {
             this.canAttack = canAttack;
         }
@@ -30,6 +37,7 @@ namespace Games.GameTypes.Durak.Player
         public void AddCard(Card card)
         {
             cards.Add(card);
+            CardAddedEvent?.Invoke(cards);
         }
 
         public bool RemoveCard(int cardIndex)
@@ -37,6 +45,7 @@ namespace Games.GameTypes.Durak.Player
             if (cardIndex >= 0 && cardIndex < cards.Count)
             {
                 cards.RemoveAt(cardIndex);
+                CardAddedEvent?.Invoke(cards);
                 return true;
             }
 
@@ -70,7 +79,7 @@ namespace Games.GameTypes.Durak.Player
                 if (CanDefence(playerCard, dropCardIndex))
                 {
                     durak.dropCards[dropCardIndex].UpperCard = playerCard;
-                    cards.RemoveAt(cardIndex);
+                    RemoveCard(cardIndex);
                     durak.OnPlayerMovedEvent();
                     return true;
                 }
@@ -88,7 +97,8 @@ namespace Games.GameTypes.Durak.Player
         {
             durak.isFirstMove = false;
             durak.dropCards.Add(new(playerCard));
-            cards.RemoveAt(cardIndex);
+            durak.CreateDropCardVisualization(durak.dropCards.Count - 1);
+            RemoveCard(cardIndex);
         }
 
         protected void ContinueAttack(Card playerCard, int cardIndex)
@@ -98,7 +108,8 @@ namespace Games.GameTypes.Durak.Player
                 if (CanAttack(playerCard, dropCard))
                 {
                     durak.dropCards.Add(new(playerCard));
-                    cards.RemoveAt(cardIndex);
+                    durak.CreateDropCardVisualization(durak.dropCards.Count - 1);
+                    RemoveCard(cardIndex);
                     return;
                 }
             }
