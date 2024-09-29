@@ -4,5 +4,26 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 6435f080ebb69744ca6f977a5f098f03
+  - enabled: 1
+    path: Assets/Scenes/Backgammon.unity
+    guid: 8905677443eff9840a7f17323b756823
+  - enabled: 1
+    path: Assets/Scenes/BlackJack.unity
+    guid: 009b1c4ed9204dd44b757d18982904ce
+  - enabled: 1
+    path: Assets/Scenes/Checkers.unity
+    guid: ea2c942402264bb45b8a3f58a3bf93a5
+  - enabled: 1
+    path: Assets/Scenes/Chess.unity
+    guid: ea77237883b6c114ebf9563d6a850d05
+  - enabled: 1
+    path: Assets/Scenes/Fool.unity
+    guid: 3c119c9d285b94c45a2c42b541551096
+  - enabled: 1
+    path: Assets/Scenes/Poker.unity
+    guid: 60b8b63779da17145b0535f82ac68824
   m_configObjects: {}
