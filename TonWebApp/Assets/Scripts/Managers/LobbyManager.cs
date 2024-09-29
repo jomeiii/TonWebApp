@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -9,8 +8,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     string Scene;
     [SerializeField] GameObject content;
-
-    [SerializeField] Text debuging;
 
     [SerializeField] GameObject roomListPrefab;
     string GameType = "";
@@ -66,7 +63,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         Instantiate(roomListPrefab, Vector3.zero, Quaternion.identity, content.transform);
-        debuging.text = roomList.Count.ToString();
         string[] SharedName;
         for (int i = 0; i < roomList.Count; i++)
         {

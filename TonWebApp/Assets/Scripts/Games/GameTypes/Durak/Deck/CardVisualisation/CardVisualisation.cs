@@ -42,6 +42,7 @@ namespace Games.GameTypes.Durak.Deck.CardVisualisation
         {
             // Отключаем блокировку взаимодействия с объектом
             gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
+            _durak.cardIndex = _cardIndex;
             UpScale();
         }
 
@@ -58,7 +59,6 @@ namespace Games.GameTypes.Durak.Deck.CardVisualisation
             gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
             DownScale();
             transform.localPosition = _startPosition;
-            _durak.cardIndex = _cardIndex;
             _durak.Move(0);
         }
 

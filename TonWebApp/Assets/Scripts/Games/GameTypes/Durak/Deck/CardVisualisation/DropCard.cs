@@ -18,6 +18,7 @@ namespace Games.GameTypes.Durak.Deck.CardVisualisation
         public void Init(Durak durak, int index)
         {
             _index = index;
+            _durak = durak;
             _dropCard = durak.dropCards[index];
 
             _lowerCardImage.sprite =

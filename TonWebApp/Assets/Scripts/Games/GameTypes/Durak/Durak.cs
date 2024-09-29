@@ -26,6 +26,7 @@ namespace Games.GameTypes.Durak
 
         [SerializeField] private int _currentPlayerIndex;
         [SerializeField] private List<DurakPlayer> _players;
+        
         [SerializeField] private List<CardManager> _cardManagers;
         [SerializeField] private List<Games.GameTypes.Durak.Deck.CardVisualisation.DropCard> _dropCardsVisualiser;
 
@@ -69,8 +70,6 @@ namespace Games.GameTypes.Durak
         {
             if (playerIndex >= 0 && playerIndex < _players.Count)
             {
-                DynamicDebug.Debug(nameof(Durak), nameof(Move), "Current player was moved");
-
                 if (IsDefencePlayerIndex(playerIndex))
                 {
                     DynamicDebug.Debug(nameof(Durak), nameof(Move), "Current player defence");
