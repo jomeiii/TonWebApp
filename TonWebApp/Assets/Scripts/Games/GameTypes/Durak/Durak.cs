@@ -9,7 +9,7 @@ using DropCard = Games.GameTypes.Durak.Deck.DropCard;
 
 namespace Games.GameTypes.Durak
 {
-    public sealed class Durak : Game
+    public sealed class Durak :  Game
     {
         private const int SizeHands = 6;
 
@@ -38,6 +38,12 @@ namespace Games.GameTypes.Durak
 
         public Card TrumpCard => _trumpCard;
 
+        public Deck.Deck Deck
+        {
+            get => _deck;
+            set => _deck = value;
+        }
+
         public bool IsDefencePlayerWin
         {
             get => _isDefencePlayerWin;
@@ -59,6 +65,8 @@ namespace Games.GameTypes.Durak
             _players.Add(new DurakBot(durak: this, botIndex: _players.Count, canAttack: false,
                 cardManager: _cardManagers[1])); // Бот
 
+            
+            
             DealCard();
         }
 
