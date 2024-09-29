@@ -8374,7 +8374,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Fool
+          m_StringArgument: TestCliker
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1634786006
@@ -8913,7 +8913,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 414562536}
-  debuging: {fileID: 0}
   roomListPrefab: {fileID: 6689312827954952902, guid: acbf53bfe9434e54289462ac90518448, type: 3}
   FlipedUp: {fileID: 86197222}
   Translated: {fileID: 1534201754}
@@ -9123,7 +9122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4203a3028f412649a43fcd13d0cbcb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameName: Fool
+  GameName: TestCliker
   RoomName: {fileID: 474287424}
   GameType: {fileID: 1173209929}
   CountOfCards: {fileID: 1668340558}

@@ -1,5 +1,7 @@
 ﻿using Dynamic;
 using Games.GameTypes.Durak.Deck;
+using Games.GameTypes.Durak.Deck.CardVisualisation;
+using UnityEngine;
 
 namespace Games.GameTypes.Durak.Player
 {
@@ -7,14 +9,15 @@ namespace Games.GameTypes.Durak.Player
     {
         private readonly int _botIndex;
 
-        public DurakBot(Durak durak, int botIndex) : base(durak)
+        public DurakBot(Durak durak, CardManager cardManager, int botIndex) : base(durak, cardManager)
         {
             _botIndex = botIndex;
             durak.CurrentPlayerIndexChangedEvent += OnCurrentPlayerIndexChange;
             durak.PlayerMovedEvent += OnPlayerMoved;
         }
 
-        public DurakBot(Durak durak, int botIndex, bool canAttack) : base(durak, canAttack)
+        public DurakBot(Durak durak, CardManager cardManager, int botIndex, bool canAttack) : base(durak, cardManager,
+            canAttack)
         {
             _botIndex = botIndex;
             durak.CurrentPlayerIndexChangedEvent += OnCurrentPlayerIndexChange;
@@ -106,16 +109,16 @@ namespace Games.GameTypes.Durak.Player
             // Защищаемся от сброшенных карт
             for (int i = 0; i < durak.dropCards.Count; i++)
             {
+                Debug.Log("kosdfgklfgjlk;dsjkldfgs " + i);
+                
                 // Если карта не побита
                 if (durak.dropCards[i].isUpperCardNull)
                 {
                     int cardIndex = FindTheSmallestDefenceCard(durak.dropCards[i].LowerCard);
-                    DynamicDebug.Debug(nameof(DurakBot), nameof(FindTheSmallestDefenceCard),
-                        $"Card index {cardIndex}");
-
                     // Если карту нашли, то бьем
                     if (cardIndex != -1)
                     {
+                        durak.DropCardsVisualiser[i].SetSprite(cards[cardIndex]);
                         Defence(cardIndex, i);
                     }
                     // Если карту не нашли значит бот должен взять
