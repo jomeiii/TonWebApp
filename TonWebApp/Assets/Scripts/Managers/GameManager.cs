@@ -1,21 +1,27 @@
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Games;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace Managers
 {
-    [SerializeField] GameObject PlayerPrefab;
-
-    // Start is called before the first frame update
-    void Start()
+    public class GameManager : Singleton<GameManager>
     {
-        PhotonNetwork.Instantiate(PlayerPrefab.name, new Vector3(Random.Range(-3, 3), Random.Range(-3, 3), 0), Quaternion.identity);
+        public TelegramData telegramData;
+        
+        public GameType currentGameType;
+        
+        public bool isDataLoaded;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            telegramData = new();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public class TelegramData
     {
-        
+        public string playerID;
+        public string playerUserName;
+        public Texture2D avatar;
     }
 }
