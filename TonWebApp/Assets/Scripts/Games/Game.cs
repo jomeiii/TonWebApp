@@ -8,6 +8,9 @@ namespace Games
 {
     public class Game : MonoBehaviour
     {
+        public Button readyButton;
+        public int playersCount;
+        
         [SerializeField] private Image _userAvatar;
         [SerializeField] private Image _opponentAvatar;
         

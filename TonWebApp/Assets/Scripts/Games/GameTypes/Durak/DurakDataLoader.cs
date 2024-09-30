@@ -7,27 +7,28 @@ namespace Games.GameTypes.Durak
     public class DurakDataLoader : MonoBehaviourPunCallbacks
     {
         [SerializeField] private Durak _durak;
+        [SerializeField] PhotonView _photonView;
 
         private void Start()
         {
-            // Получаем компонент PhotonView
-            var photonViewObj = GetComponent<PhotonView>();
+            _photonView = GetComponent<PhotonView>();
 
-            // Проверяем, принадлежит ли объект текущему игроку
-            if (!photonViewObj.IsMine)
+            if (!_photonView.IsMine)
             {
-                enabled = false; // Отключаем компонент, если это не наш объект
-                return; // Выходим из метода
+                enabled = false;
+                return;
             }
 
-            // Находим объект Durak в сцене
             _durak = FindObjectOfType<Durak>();
+            if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
+            {
+                _photonView.RPC(nameof(ActivateReadyButton), RpcTarget.All, null);
+            }
 
-            // Создаем колоду карт и отправляем данные другим игрокам
-            var deck = new Deck.Deck(36);
-            deck.TakeCard(out var trumpCard);
-            SendDeckData(photonViewObj, deck);
-            SendTrumpCard(photonViewObj ,trumpCard);
+            // var deck = new Deck.Deck(36);
+            // deck.TakeCard(out var trumpCard);
+            // SendDeckData(photonViewObj, deck);
+            // SendTrumpCard(photonViewObj ,trumpCard);
         }
 
         private void SendDeckData(PhotonView photonViewObj, Deck.Deck deck)
@@ -45,7 +46,6 @@ namespace Games.GameTypes.Durak
         [PunRPC]
         private void LoadData(string deckJson)
         {
-            // Десериализуем данные колоды и присваиваем их объекту Durak
             _durak.Deck = JsonUtility.FromJson<Deck.Deck>(deckJson);
         }
 
@@ -53,6 +53,32 @@ namespace Games.GameTypes.Durak
         private void LoadTrumpCard(string cardJson)
         {
             _durak.TrumpCard = JsonUtility.FromJson<Card>(cardJson);
+        }
+
+        [PunRPC]
+        private void ActivateReadyButton()
+        {
+            _durak.readyButton.gameObject.SetActive(true);
+            _durak.readyButton.onClick.AddListener(ReadyButtonHandler);
+        }
+
+        [PunRPC]
+        private void LoadPlayerCount()
+        {
+            if (PhotonNetwork.CurrentRoom.MaxPlayers - 1 == _durak.playersCount)
+            {
+                var deck = new Deck.Deck(36);
+                deck.TakeCard(out var trumpCard);
+                SendDeckData(_photonView, deck);
+                SendTrumpCard(_photonView, trumpCard);
+            }
+
+            _durak.playersCount++;
+        }
+
+        private void ReadyButtonHandler()
+        {
+            _photonView.RPC(nameof(LoadPlayerCount), RpcTarget.All, null);
         }
     }
 }
