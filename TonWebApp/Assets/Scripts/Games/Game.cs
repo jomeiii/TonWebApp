@@ -15,7 +15,7 @@ namespace Games
 
         protected virtual void Awake()
         {
-            Init("5501139939");
+            // Init("5501139939");
         }
 
         protected virtual void Init(string opponentID)
