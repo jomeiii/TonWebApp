@@ -443,9 +443,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63bb8efb6ca4175a092dc71799b8bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  readyButton: {fileID: 1795138189}
+  playersCount: 0
   _userAvatar: {fileID: 381020473}
   _opponentAvatar: {fileID: 1205222299}
-  readyButton: {fileID: 1795138187}
   cardIndex: -1
   dropCardIndex: -1
   isFirstMove: 1
@@ -1185,7 +1186,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 144.63, y: 63.13}
+  m_AnchoredPosition: {x: 144.63, y: 63.130005}
   m_SizeDelta: {x: 289.251, y: 126.25098}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1091405816
