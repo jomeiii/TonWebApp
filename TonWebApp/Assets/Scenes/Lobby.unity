@@ -2686,10 +2686,10 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 1300, y: 150}
+  m_CellSize: {x: 866, y: 150}
   m_Spacing: {x: 0, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -10429,6 +10429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030d06fad00d38e43b6dc7b960c76414, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pvCache: {fileID: 0}
 --- !u!1 &2053375751
 GameObject:
   m_ObjectHideFlags: 0

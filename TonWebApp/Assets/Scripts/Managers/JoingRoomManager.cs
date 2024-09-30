@@ -30,7 +30,7 @@ public class JoingRoomManager : MonoBehaviour
         string gameName = GameName;
         switch (GameName)
         {
-            case "Fool":
+            case "TestCliker":
                 gameName += obstacle + RoomName.text + obstacle + GameType.options[GameType.value].text + obstacle + CountOfCards.options[CountOfCards.value].text + obstacle  + CountOfPlayers.options[CountOfPlayers.value].text + obstacle;
                 break;
 

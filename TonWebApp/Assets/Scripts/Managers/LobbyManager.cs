@@ -62,17 +62,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        Instantiate(roomListPrefab, Vector3.zero, Quaternion.identity, content.transform);
         string[] SharedName;
+        Debug.Log(roomList.Count);
         for (int i = 0; i < roomList.Count; i++)
         {
-            Instantiate(roomListPrefab, Vector3.zero, Quaternion.identity, content.transform);
             SharedName = roomList[i].Name.Split("/");
             switch (GameType)
             {
-                case "Fool":
+                case "TestCliker":
+                    Debug.Log("case");
                     if (SharedName[0] == GameType)
                     {
+                        Debug.Log("type");
                         if (SharedName[SharedName.Length - 2] == CountOfPlayers.options[CountOfPlayers.value].text)
                         {
                             if (FlipedUp.isOn == true)

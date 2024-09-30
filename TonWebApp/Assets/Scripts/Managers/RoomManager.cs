@@ -16,6 +16,7 @@ public class RoomManager : MonoBehaviour
 
     public void Joing()
     {
-        GameObject.Find("Convas").GetComponent<LobbyManager>().JoinGame(RoomName);
+        Debug.Log(GameObject.Find("Canvas").name);
+        GameObject.Find("Canvas").GetComponent<LobbyManager>().JoinGame(RoomName);
     }
 }
