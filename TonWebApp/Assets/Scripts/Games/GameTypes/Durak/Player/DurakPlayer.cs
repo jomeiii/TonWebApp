@@ -127,14 +127,14 @@ namespace Games.GameTypes.Durak.Player
         protected bool CanDefence(Card playerCard, int dropCardIndex)
         {
             var dropCard = durak.dropCards[dropCardIndex];
-            if (dropCard.LowerCard.CardType == durak.TrumpCard)
+            if (dropCard.LowerCard.CardType == durak.TrumpCardType)
             {
-                return playerCard.CardType == durak.TrumpCard &&
+                return playerCard.CardType == durak.TrumpCardType &&
                        playerCard.Value > dropCard.LowerCard.Value;
             }
             else
             {
-                if (playerCard.CardType == durak.TrumpCard)
+                if (playerCard.CardType == durak.TrumpCardType)
                 {
                     return true;
                 }

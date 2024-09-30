@@ -5,6 +5,7 @@ using Games.GameTypes.Durak.Deck;
 using Games.GameTypes.Durak.Deck.CardVisualisation;
 using Games.GameTypes.Durak.Player;
 using UnityEngine;
+using UnityEngine.UI;
 using DropCard = Games.GameTypes.Durak.Deck.DropCard;
 
 namespace Games.GameTypes.Durak
@@ -30,20 +31,24 @@ namespace Games.GameTypes.Durak
         [SerializeField] private List<CardManager> _cardManagers;
         [SerializeField] private float _cardSpacing;
         [SerializeField] private List<Games.GameTypes.Durak.Deck.CardVisualisation.DropCard> _dropCardsVisualiser;
+        [SerializeField] private Image _trumpCardImage;
 
         private bool _isDefencePlayerWin = true;
-        private CardType _trumpCardType;
+        private CardType _trumpCardTypeType;
 
         public event Action<int> CurrentPlayerIndexChangedEvent;
         public event Action CurrentPlayerLoseEvent;
         public event Action PlayerMovedEvent;
 
-        public CardType TrumpCard => _trumpCardType;
+        public CardType TrumpCardType => _trumpCardTypeType;
 
         public Deck.Deck Deck
         {
             get => _deck;
-            set => _deck = value;
+            set
+            {
+                _deck = value;
+            }
         }
 
         public bool IsDefencePlayerWin
@@ -52,15 +57,33 @@ namespace Games.GameTypes.Durak
             set => _isDefencePlayerWin = value;
         }
 
+        public Card TrumpCard
+        {
+            get => _trumpCard;
+            set
+            {
+                _trumpCard = value;
+                _trumpCardImage.sprite = Resources.Load<Sprite>($"Cards/{_trumpCard.CardType}/{_trumpCard.Value}");
+            }
+        }
+
         public List<Games.GameTypes.Durak.Deck.CardVisualisation.DropCard> DropCardsVisualiser => _dropCardsVisualiser;
 
         protected override void Awake()
         {
             base.Awake();
 
-            _deck = new Deck.Deck(36);
-            _deck.TakeCard(out _trumpCard);
+            // Создаем игроков
+            _players.Add(new HumanPlayer(durak: this, canAttack: true,
+                cardManager: _cardManagers[0])); // Реальный игрок
+            _players.Add(new DurakBot(durak: this, botIndex: _players.Count, canAttack: false,
+                cardManager: _cardManagers[1])); // Бот
 
+            DealCard();
+        }
+
+        private void Start()
+        {
             // Создаем игроков
             _players.Add(new HumanPlayer(durak: this, canAttack: true,
                 cardManager: _cardManagers[0])); // Реальный игрок

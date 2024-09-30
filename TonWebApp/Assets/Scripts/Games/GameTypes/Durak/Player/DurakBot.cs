@@ -141,14 +141,14 @@ namespace Games.GameTypes.Durak.Player
             int smallestDropCardTypeValue = int.MaxValue;
 
             // Если сбрасываемая карта - козырь, то ищем козырь в руке
-            if (dropCard.CardType == durak.TrumpCard)
+            if (dropCard.CardType == durak.TrumpCardType)
             {
                 for (int i = 0; i < cards.Count; i++)
                 {
                     var card = cards[i];
 
                     // Ищем козырь, который больше по значению, чем сбрасываемая карта
-                    if (card.CardType == durak.TrumpCard &&
+                    if (card.CardType == durak.TrumpCardType &&
                         card.Value < smallestTrumpCardValue &&
                         card.Value > dropCard.Value)
                     {
@@ -170,7 +170,7 @@ namespace Games.GameTypes.Durak.Player
                 var card = cards[i];
 
                 // Ищем козырь, если он есть
-                if (card.CardType == durak.TrumpCard &&
+                if (card.CardType == durak.TrumpCardType &&
                     card.Value < smallestTrumpCardValue)
                 {
                     smallestTrumpCardIndex = i;
@@ -211,7 +211,7 @@ namespace Games.GameTypes.Durak.Player
                 var playerCard = Cards[i];
 
                 // Сначала обрабатываем не козыри
-                if (playerCard.CardType != durak.TrumpCard)
+                if (playerCard.CardType != durak.TrumpCardType)
                 {
                     if (playerCard.Value < smallestNonTrumpCardValue)
                     {
