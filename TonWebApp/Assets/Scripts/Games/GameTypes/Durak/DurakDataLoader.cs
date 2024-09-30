@@ -7,22 +7,23 @@ namespace Games.GameTypes.Durak
     {
         [SerializeField] private Durak _durak;
         
-        private void Awake()
+        private void Start()
         {
             var photonViewObj = GetComponent<PhotonView>();
             if (!photonViewObj.IsMine)
             {
                 enabled = false;
             }
-            
-            _durak = GameObject.FindGameObjectWithTag("Durak").GetComponent<Durak>();
-            photonViewObj.RPC("LoadData", RpcTarget.Others, new Deck.Deck(36));
+
+            _durak = FindObjectOfType<Durak>();
+            var deck = new Deck.Deck(36);
+            photonViewObj.RPC(nameof(LoadData), RpcTarget.Others, JsonUtility.ToJson(deck));
         }
 
         [PunRPC]
-        private void LoadData(Deck.Deck deck)
+        private void LoadData(Deck.Deck a)
         {
-            _durak.Deck = deck;
+            _durak.Deck = a;
         }
     }
 }

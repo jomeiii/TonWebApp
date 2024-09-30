@@ -54,6 +54,8 @@ namespace Games.GameTypes.Durak.Player
 
         public void Attack(int cardIndex)
         {
+            if (durak.dropCards.Count >= Durak.SizeHands) return;
+            
             if (HasCard(cardIndex))
             {
                 var playerCard = cards[cardIndex];
@@ -79,6 +81,7 @@ namespace Games.GameTypes.Durak.Player
                 if (CanDefence(playerCard, dropCardIndex))
                 {
                     durak.dropCards[dropCardIndex].UpperCard = playerCard;
+                    durak.DropCardsVisualiser[dropCardIndex].SetSprite(cards[cardIndex]);
                     RemoveCard(cardIndex);
                     durak.OnPlayerMovedEvent();
                     return true;
@@ -124,14 +127,14 @@ namespace Games.GameTypes.Durak.Player
         protected bool CanDefence(Card playerCard, int dropCardIndex)
         {
             var dropCard = durak.dropCards[dropCardIndex];
-            if (dropCard.LowerCard.CardType == durak.TrumpCard.CardType)
+            if (dropCard.LowerCard.CardType == durak.TrumpCard)
             {
-                return playerCard.CardType == durak.TrumpCard.CardType &&
+                return playerCard.CardType == durak.TrumpCard &&
                        playerCard.Value > dropCard.LowerCard.Value;
             }
             else
             {
-                if (playerCard.CardType == durak.TrumpCard.CardType)
+                if (playerCard.CardType == durak.TrumpCard)
                 {
                     return true;
                 }

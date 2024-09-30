@@ -8,7 +8,7 @@ namespace Games.GameTypes.Durak.Deck.CardVisualisation
     public class DropCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         public Image upperCardImage;
-        
+
         [SerializeField] private Image _lowerCardImage;
 
         [SerializeField] private int _index;
@@ -33,13 +33,15 @@ namespace Games.GameTypes.Durak.Deck.CardVisualisation
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (_durak != null)
-                _durak.dropCardIndex = -1;
+            _durak.dropCardIndex = -1;
         }
 
         public void SetSprite(Card upperCard)
         {
             var sprite = Resources.Load<Sprite>($"Cards/{upperCard.CardType}/{upperCard.Value}");
+            var a = upperCardImage.color;
+            a.a = 1;
+            upperCardImage.color = a;
             upperCardImage.sprite = sprite;
         }
     }

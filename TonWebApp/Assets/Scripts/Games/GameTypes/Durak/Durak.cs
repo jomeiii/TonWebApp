@@ -9,9 +9,9 @@ using DropCard = Games.GameTypes.Durak.Deck.DropCard;
 
 namespace Games.GameTypes.Durak
 {
-    public sealed class Durak :  Game
+    public sealed class Durak : Game
     {
-        private const int SizeHands = 6;
+        public const int SizeHands = 6;
 
         public int cardIndex;
         public int dropCardIndex;
@@ -26,17 +26,19 @@ namespace Games.GameTypes.Durak
 
         [SerializeField] private int _currentPlayerIndex;
         [SerializeField] private List<DurakPlayer> _players;
-        
+
         [SerializeField] private List<CardManager> _cardManagers;
+        [SerializeField] private float _cardSpacing;
         [SerializeField] private List<Games.GameTypes.Durak.Deck.CardVisualisation.DropCard> _dropCardsVisualiser;
 
         private bool _isDefencePlayerWin = true;
+        private CardType _trumpCardType;
 
         public event Action<int> CurrentPlayerIndexChangedEvent;
         public event Action CurrentPlayerLoseEvent;
         public event Action PlayerMovedEvent;
 
-        public Card TrumpCard => _trumpCard;
+        public CardType TrumpCard => _trumpCardType;
 
         public Deck.Deck Deck
         {
@@ -65,8 +67,6 @@ namespace Games.GameTypes.Durak
             _players.Add(new DurakBot(durak: this, botIndex: _players.Count, canAttack: false,
                 cardManager: _cardManagers[1])); // Бот
 
-            
-            
             DealCard();
         }
 
@@ -103,7 +103,7 @@ namespace Games.GameTypes.Durak
                 foreach (var dropCard in dropCards)
                 {
                     _players[defencePlayerIndex].AddCard(dropCard.LowerCard);
-                    if (!dropCard.UpperCard.IsNull) _players[defencePlayerIndex].AddCard(dropCard.UpperCard);
+                    if (!dropCard.isUpperCardNull) _players[defencePlayerIndex].AddCard(dropCard.UpperCard);
                 }
 
                 _players[defencePlayerIndex].canAttack = true;
@@ -119,7 +119,7 @@ namespace Games.GameTypes.Durak
 
             dropCards.Clear();
             foreach (var card in _dropCardsVisualiser)
-                Destroy(card);
+                Destroy(card.gameObject);
             _dropCardsVisualiser.Clear();
             DealCard();
 
@@ -145,11 +145,69 @@ namespace Games.GameTypes.Durak
 
         public void CreateDropCardVisualization(int index)
         {
+            var dropCard = InstantiateDropCard(index);
+            _dropCardsVisualiser.Add(dropCard);
+            UpdateDropCardPositions();
+        }
+
+        private Games.GameTypes.Durak.Deck.CardVisualisation.DropCard InstantiateDropCard(int index)
+        {
             var prefab = Resources.Load<Games.GameTypes.Durak.Deck.CardVisualisation.DropCard>("Cards/DropCardPrefab");
             var dropCard = Instantiate(prefab, transform.GetChild(0));
             dropCard.Init(this, index);
-            
-            _dropCardsVisualiser.Add(dropCard);
+            return dropCard;
+        }
+
+        private void UpdateDropCardPositions()
+        {
+            float cardWidth = GetCardWidth();
+            float cardHeight = GetCardHeight();
+
+            for (int i = 0; i < _dropCardsVisualiser.Count; i++)
+            {
+                var cardObj = _dropCardsVisualiser[i];
+                Vector2 position = CalculateCardPosition(i, cardWidth, cardHeight);
+                cardObj.transform.localPosition = position;
+            }
+        }
+
+        private float GetCardWidth()
+        {
+            return Resources.Load<Games.GameTypes.Durak.Deck.CardVisualisation.DropCard>("Cards/DropCardPrefab")
+                .GetComponent<RectTransform>().rect.width;
+        }
+
+        private float GetCardHeight()
+        {
+            return Resources.Load<Games.GameTypes.Durak.Deck.CardVisualisation.DropCard>("Cards/DropCardPrefab")
+                .GetComponent<RectTransform>().rect.height;
+        }
+
+        private Vector2 CalculateCardPosition(int index, float cardWidth, float cardHeight)
+        {
+            int adjustedIndex = AdjustIndex(index);
+            float cardX = (adjustedIndex - SizeHands / 4f) * (cardWidth + _cardSpacing);
+
+            if (_dropCardsVisualiser.Count > 0)
+                cardX += cardWidth / 2;
+
+            float cardY = cardHeight + _cardSpacing;
+
+            var pos = new Vector2(cardX, 0);
+            if (index >= SizeHands / 2)
+            {
+                pos.y += cardY;
+            }
+
+            if (_dropCardsVisualiser.Count > SizeHands / 2)
+                pos.y -= cardHeight / 2;
+
+            return pos;
+        }
+
+        private int AdjustIndex(int index)
+        {
+            return index >= SizeHands / 2 ? index - SizeHands / 2 : index;
         }
 
         private void DealCard()
